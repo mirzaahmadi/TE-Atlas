@@ -32,15 +32,11 @@ Given an input genome, the first step of this pipeline will run it through numer
 sbatch -- -g [genome.fna/fasta]
 ```
 
-Required Parameters:
-
 ```text
+# Required Parameters:
 -g == genome.fasta
-```
 
-Optional Parameters:
-
-```text
+# Optional Parameters:
 -t == Keep all tools' intermediate output files
 -e == Keep Earl Grey genome support files
 -f == Keep prefixed fasta output files
@@ -54,32 +50,32 @@ Directories created by this step:
 
 ```text
 <genome_name>_outputs/
-├── COMBINED_TE_SEQUENCES_<genome_name>.fa
-├── COMPLETE_TE_RESULTS_<genome_name>.csv
-├── FINAL_cdhit_<genome_name>
-├── pfam_output_<genome_name>.csv
-├── TE_FASTAs_from_TE_Pipelines/
-│   ├── Prefixed_<genome_name>-families.fa
-│   ├── Prefixed_<genome_name>_<hash>-matches.FASTA
-│   ├── Prefixed_RC.representative.fa
-│   ├── Prefixed_confident_TE.cons.fa
-│   └── prefixed_mitefinder_file
-├── TE_pipeline_intermediate_outputs/
-│   ├── <genome_name>_ANNOSINE_outputs
-│   ├── <genome_name>_HELIANO_outputs
-│   ├── <genome_name>_HITE_outputs
-│   └── earlGreyOutputs
-│       └── mitefinder_outputs
-├── cd-hit_round_1_outputs/
-│   ├── Clustered_COMBINED_TE_SEQUENCES_<genome_name>
-│   └── Clustered_COMBINED_TE_SEQUENCES_<genome_name>.clstr
-├── cd-hit_round_2_outputs/
-│   ├── FINAL_cdhit_<genome_name>.clstr
-│   └── FINAL_cdhit_<genome_name>_PROTOTYPE.xlsx
-├── earlgrey_genome_support_files/
-│   └── Genome Preparation files
-└── pfam_intermediate_outputs/
-    └── Representative_Sequences_<genome_name>.FASTA
+    ├── COMBINED_TE_SEQUENCES_<genome_name>.fa
+    ├── COMPLETE_TE_RESULTS_<genome_name>.csv
+    ├── FINAL_cdhit_<genome_name>
+    ├── pfam_output_<genome_name>.csv
+    ├── TE_FASTAs_from_TE_Pipelines/
+    │   ├── Prefixed_<genome_name>-families.fa
+    │   ├── Prefixed_<genome_name>_<hash>-matches.FASTA
+    │   ├── Prefixed_RC.representative.fa
+    │   ├── Prefixed_confident_TE.cons.fa
+    │   └── prefixed_mitefinder_file
+    ├── TE_pipeline_intermediate_outputs/
+    │   ├── <genome_name>_ANNOSINE_outputs
+    │   ├── <genome_name>_HELIANO_outputs
+    │   ├── <genome_name>_HITE_outputs
+    │   └── earlGreyOutputs
+    │   └── mitefinder_outputs
+    ├── cd-hit_round_1_outputs/
+    │   ├── Clustered_COMBINED_TE_SEQUENCES_<genome_name>
+    │   └── Clustered_COMBINED_TE_SEQUENCES_<genome_name>.clstr
+    ├── cd-hit_round_2_outputs/
+    │   ├── FINAL_cdhit_<genome_name>.clstr
+    │   └── FINAL_cdhit_<genome_name>_PROTOTYPE.xlsx
+    ├── earlgrey_genome_support_files/
+    │   └── Genome Preparation files
+    └── pfam_intermediate_outputs/
+        └── Representative_Sequences_<genome_name>.FASTA
 ```
 
 
