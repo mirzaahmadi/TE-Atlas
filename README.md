@@ -24,11 +24,13 @@ This tool is split into three parts - 1. The TE detection portion only using the
   
 # Usage
 ## Step 1
-Given an input genome, the first step of this pipeline will run it through numerous tools to detect and classify TEs.
+Given an input genome, the first step of this pipeline will run it through numerous tools to detect and classify TEs.'
+
 """
 # Run with minumum command options
 sbatch -- -g [genome.fna/fasta]
 """
+
 """
 Required Parameters:
 		-g == genome.fasta
