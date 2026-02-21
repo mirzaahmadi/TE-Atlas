@@ -1,5 +1,5 @@
 # Placeholder Title
-Placeholder is a transposable element detetion pipeline which leverages five leading and pre-established TE tools combined with Ai classification to comprehensivly detect the TEs within any input genome. 
+Placeholder is a transposable element detetion pipeline which leverages five leading and pre-established TE tools combined with AI classification to comprehensivly detect the TEs within any input genome. 
 This tool is split into three parts - 1. The TE detection portion only using the classic TE detection tools, 2. then one that allows you to train an AI model, 3. and a last one that allows you to actually use that model to help classify unkonwns from step 1. Full process is shown below.
 
 ![Pipeline Overview](Pipeline_Overview.png)
@@ -24,8 +24,62 @@ This tool is split into three parts - 1. The TE detection portion only using the
   
 # Usage
 ## Step 1
+Given an input genome, the first step of this pipeline will run it through numerous tools to detect and classify TEs.
+"""
+# Run with minumum command options
+sbatch -- -g [genome.fna/fasta]
+"""
+"""
+Required Parameters:
+		-g == genome.fasta
+
+	Optional Parameters:
+    -t == Keep all tools' intermediate output files
+    -e == Keep Earl Grey genome support files
+    -f == Keep prefixed fasta output files
+    -c == Keep CD-HIT output files
+    -p == Keep pfam_scan intermediate output files
+    --reference_library <library.fasta> == Use custom consensus library
+    -- plant == Indicates genome is a plant (HiTE specific)
+"""
+Directories created by this step:
+
+"""
+<genome_name>_outputs/
+  ├── COMBINED_TE_SEQUENCES_<genome_name>.fa
+  ├── COMPLETE_TE_RESULTS_<genome_name>.csv
+  ├── FINAL_cdhit_<genome_name>
+  ├── pfam_output_<genome_name>.csv
+  ├── TE_FASTAs_from_TE_Pipelines/
+  │   ├── Prefixed_<genome_name>-families.fa
+  │   ├── Prefixed_<genome_name>_<hash>-matches.FASTA
+  │   ├── Prefixed_RC.representative.fa
+  │   ├── Prefixed_confident_TE.cons.fa
+  │   └── prefixed_mitefinder_file
+  ├── TE_pipeline_intermediate_outputs/
+  │   ├── <genome_name>_ANNOSINE_outputs
+  │   ├── <genome_name>_HELIANO_outputs
+  │   ├── <genome_name>_HITE_outputs
+  │   └── earlGreyOutputs
+  │   └── mitefinder_outputs
+  ├── cd-hit_round_1_outputs/
+  │   ├── Clustered_COMBINED_TE_SEQUENCES_<genome_name>
+  │   └── Clustered_COMBINED_TE_SEQUENCES_<genome_name>.clstr
+  ├── cd-hit_round_2_outputs/
+  │   ├── FINAL_cdhit_<genome_name>.clstr
+  │   └── FINAL_cdhit_<genome_name>_PROTOTYPE.xlsx
+  ├── earlgrey_genome_support_files/
+  │   └── Genome Preparation files
+  └── pfam_intermediate_outputs/
+      └── Representative_Sequences_<genome_name>.FASTA
+"""
+
+
+
 - Give like the usage of the command line argument for this
 ### Arguments
+
+## Directories created by this
 
 ### Example outputs from this part
 
