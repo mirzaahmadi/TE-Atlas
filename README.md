@@ -78,7 +78,7 @@ Directories created by this step:
         └── Representative_Sequences_<genome_name>.FASTA
 ```
 
-## Example Output Table (Excerpt)
+### Example output table for Salmon Louse Genome - "COMPLETE_TE_RESULTS_<genome_name>.csv"
 
 | cluster   | length (nt) | Pipeline Used | Sequence Information | location | similarity (%) | Representative Sequence? | Pipeline_Count | Unknown_Status | family_count | Proteins |
 |------------|------------|--------------|----------------------|----------|----------------|--------------------------|----------------|----------------|--------------|----------|
@@ -88,6 +88,77 @@ Directories created by this step:
 | Cluster 7 | 6237 | EARLGREY | rnd-1_family-40#Unknown_(RepeatScout_Family_Size_=393, Final_Multiple_Alignment_Size_=100, Localized_to_377_out_of_491_contigs_) | * |  | YES | EARLGREY: 1 | UNKNOWN PRESENT: Undiscovered |  | Astacin |
 | Cluster 8 | 5973 | EARLGREY | rnd-4_family-812#DNA/hAT-Tag1_(Recon_Family_Size_=38, Final_Multiple_Alignment_Size_=35) | * |  | YES | EARLGREY: 1 |  | DNA/hAT-Tag1: 1 |  |
 | Cluster 9 | 1110 | EARLGREY | rnd-4_family-205#LINE/L1_(Recon_Family_Size_=80, Final_Multiple_Alignment_Size_=67) | at 1:1110:4526:5634/+ | 87.99% | No |  |  |  |  |
+
+
+## Step 2
+The second step of this pipeline involves training a machine learning model off of a dataset of gold-standard TEs - this database can be substituted for yoru dataset if you have one.
+
+### Example of the training dataset that was used in my tests - any table that you put in place of this should have the same format and same column names
+
+| Sequence_ID | sequence_content | TE_Order |
+|-------------|-----------------|----------|
+| DF0000004 | CAGTCATGCGCCGCATAACGACGTTT... | TIR |
+| DF0000005 | TGATATGGTTTGGCTGTGTCCCCACC... | LTR |
+| DF0000006 | TCTATCTATATAAAATGCTTAGGTAT... | Helitron |
+| DF0000007 | GGCCGGGCGCGGTGGCTCACGCCTGT... | SINE |
+| DF0000008 | ATGGTAGATTTAAACCCAANCATATC... | Non-LTR/LINE |
+
+```bash
+# Run with minimum command options
+sbatch 3_Train_Model.sh <dataset.csv>
+```
+
+```text
+# Required Parameters:
+<dataset.csv> == Labelled TE dataset which will be used to train the model
+
+# Optional Parameters:
+--kbest <int> == specifies how many of the most relevant features  to keep when using SelectKBest from scikit-learn.
+--n-estimators <int> == It sets how many decision trees are built during training.
+```
+
+Directories created by this step:
+
+```text
+Training_outputs-<training_dataset_name>/
+    ├── [output_log].out
+    └── Training_Outputs-<training_dataset_name>/
+        ├── Intermediate_dataset_files/
+        │   ├── PREPROCESSED_training_dataset.csv
+        │   └── FINAL_training_dataset.csv
+        ├── Model_Artifacts/
+        │   ├── FEATURE_SELECTOR_<training_dataset_name>.pkl
+        │   ├── LABEL_ENCODER__<training_dataset_name>.pkl
+        │   ├── SCALER__<training_dataset_name>.pkl
+        │   └── TRAINED_MODEL__<training_dataset_name>.pkl
+        ├── Visualizations/
+        │   ├── Ambiguous_nucleotides_plot.png
+        │   ├── Training Metrics/
+        │   │   ├── classification_report.csv
+        │   │   ├── confusion_matrix.png
+        │   │   └── per_class_metrics.png
+        │   └── Seq_Len_Plots_After_Preprocessing/
+        │       ├── Crypton_Seq_Length_Boxplot.png
+        │       ├── DIRS_Seq_Length_Boxplot.png
+        │       ├── Helitron_Seq_Length_Boxplot.png
+        │       ├── LTR_Seq_Length_Boxplot.png
+        │       ├── Maverick_Seq_Length_Boxplot.png
+        │       ├── Non-LTR_LINE_Seq_Length_Boxplot.png
+        │       ├── PLE_Seq_Length_Boxplot.png
+        │       ├── SINE_Seq_Length_Boxplot.png
+        │       └── TIR_Seq_Length_Boxplot.png
+```
+
+### Example output
+
+
+
+
+
+
+
+
+
 
 - Give like the usage of the command line argument for this
 ### Arguments
