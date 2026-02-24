@@ -29,7 +29,7 @@ Given an input genome, the first step of this pipeline will run it through numer
 
 ```bash
 # Run with minimum command options
-sbatch -- -g [genome.fna/fasta]
+sbatch main.sh -- -g [genome.fna/fasta]
 ```
 
 ```text
@@ -105,7 +105,7 @@ The second step of this pipeline involves training a machine learning model off 
 
 ```bash
 # Run with minimum command options
-sbatch 3_Train_Model.sh <dataset.csv>
+sbatch Train_Model.sh <dataset.csv>
 ```
 
 ```text
@@ -151,7 +151,44 @@ Training_outputs-<training_dataset_name>/
 
 ### Example output
 
+## Step 3
+Use the trained machine learning model to classify any remaining unknown sequences 
 
+```bash
+# Run with minimum command options
+sbatch classify.sh <complete_csv> <cdhit_output> <model_pkl> <scaler_pkl> <label_encoder_pkl> <selector_pkl> 
+```
+
+```text
+# Required Parameters:
+<complete_csv> == Complete TE results table (outputted from step 1)
+<cdhit_output> == CD-HIT consensus sequence FASTA (outputted from step 1)
+<model_pkl> == Serialized trained random forest model (outputted from step 2)
+<scaler_pkl> == Serialized scaler (outputted from step 2)
+<label_encoder_pkl> == Serialized label encoder (outputted from step 2)
+<selector_pkl> == Serialized feature selector (outputted from step 2)
+
+# Optional Parameters:
+--classifier-threshold <float> == Specifies AI model confidence threshold for TE classification – default value of 0.70 is used if not specified
+```
+
+Directories created by this step:
+
+```text
+Classification_outputs/
+    ├── [output_log].out
+    └── classification_outputs/
+        ├── Classification_Results/
+        │   ├── classification_results.csv
+        │   └── classification_summary.png
+        └── Intermediate_dataset_files/
+            ├── original_inference_dataset.csv
+            ├── preprocessed_inference_dataset.csv
+            ├── feature-extracted_inference_dataset.csv
+            └── Final_inference_dataset.csv
+```
+
+### Example output 
 
 
 
