@@ -196,27 +196,8 @@ Classification_outputs/
 
 
 
+# References 
 
-- Give like the usage of the command line argument for this
-### Arguments
-
-## Directories created by this
-
-### Example outputs from this part
-
-
-## Step 2
-- Give the command for this
-### Arguments
-
-### Example outputs from this part
-
-
-## Step 3
-- Give the command for this
-### Arguments
-
-### Examples outputs from this part
-
+# Acknowledgements
 
 
