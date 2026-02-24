@@ -78,6 +78,16 @@ Directories created by this step:
         └── Representative_Sequences_<genome_name>.FASTA
 ```
 
+## Example Output Table (Excerpt)
+
+| cluster   | length (nt) | Pipeline Used | Sequence Information | location | similarity (%) | Representative Sequence? | Pipeline_Count | Unknown_Status | family_count | Proteins |
+|------------|------------|--------------|----------------------|----------|----------------|--------------------------|----------------|----------------|--------------|----------|
+| Cluster 5 | 76   | EARLGREY | rnd-5_family-6073#Unknown_(Recon_Family_Size_=28, Final_Multiple_Alignment_Size_=28) | at 73:7:4348:4413/- | 86.57% | No  |  |  |  |  |
+| Cluster 5 | 7005 | HELIANO | insertion_Helitron_nonauto_11 | * |  | YES | EARLGREY: 2, HELIANO: 1 | UNKNOWN PRESENT: Discovered | non_autonomous_helitron: 1 |  |
+| Cluster 6 | 6632 | HELIANO | insertion_Helitron_nonauto_22 | * |  | YES | HELIANO: 1 |  | non_autonomous_helitron: 1 |  |
+| Cluster 7 | 6237 | EARLGREY | rnd-1_family-40#Unknown_(RepeatScout_Family_Size_=393, Final_Multiple_Alignment_Size_=100, Localized_to_377_out_of_491_contigs_) | * |  | YES | EARLGREY: 1 | UNKNOWN PRESENT: Undiscovered |  | Astacin |
+| Cluster 8 | 5973 | EARLGREY | rnd-4_family-812#DNA/hAT-Tag1_(Recon_Family_Size_=38, Final_Multiple_Alignment_Size_=35) | * |  | YES | EARLGREY: 1 |  | DNA/hAT-Tag1: 1 |  |
+| Cluster 9 | 1110 | EARLGREY | rnd-4_family-205#LINE/L1_(Recon_Family_Size_=80, Final_Multiple_Alignment_Size_=67) | at 1:1110:4526:5634/+ | 87.99% | No |  |  |  |  |
 
 - Give like the usage of the command line argument for this
 ### Arguments
