@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=0-00:05:00
+#SBATCH --time=0-02:00:00
 #SBATCH --account=def-skremer
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=26G
@@ -51,12 +51,8 @@ SELECTOR_PKL="$6"
 shift 6
 
 # Anything left is optional flags; we only accept --classifier-threshold <float>
-OPTIONAL_ARGS=()
 if [[ $# -gt 0 ]]; then
-  if [[ $# -eq 2 && "$1" == "--classifier-threshold" ]]; then
-    OPTIONAL_ARGS=( "--classifier-threshold" "$2" )
-    shift 2
-  else
+  if [[ $# -ne 2 || "$1" != "--classifier-threshold" ]]; then
     echo "Error: Unrecognized optional arguments."
     usage
     exit 1
@@ -83,7 +79,7 @@ python -u Classify/_START_CLASSIFYING.py \
   "$SCALER_PKL" \
   "$LABEL_PKL" \
   "$SELECTOR_PKL" \
-  "${OPTIONAL_ARGS[@]:-}"
+  "$@"
 
 # -----------------------------
 # Collect final outputs
@@ -125,3 +121,22 @@ for ext in csv CSV; do
     mv "$src_path" .
   fi
 done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
