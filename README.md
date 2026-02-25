@@ -2,7 +2,7 @@
 Placeholder is a transposable element detetion pipeline which leverages five leading and pre-established TE tools combined with AI classification to comprehensivly detect the TEs within any input genome. 
 This tool is split into three parts - 1. The TE detection portion only using the classic TE detection tools, 2. then one that allows you to train an AI model, 3. and a last one that allows you to actually use that model to help classify unkonwns from step 1. Full process is shown below.
 
-![Pipeline Overview](Pipeline_Overview.png)
+![Pipeline Overview](Examples/Pipeline_Overview.png)
 
 # Prerequisites (Do I list every single module on compute canada loaded and python/R library needed - what if I install them in the code? I think I can just put the modules on compute canada because they may be using a different platform and not just load these - for the python and r libraries - as long as they have python whatever installed my scripts which include importing external libraries are good enough)
 - StdEnv/2020
