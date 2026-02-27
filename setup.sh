@@ -1,11 +1,34 @@
 #!/bin/bash
 
-# This script will download all the necessary data files and containers for the pipeline
+# This script will download all the necessary dependencies, data files and containers for the pipeline
 # To run: ./setup.sh
 
 set -euo pipefail
 
 # Load all dependencies
+load_module() {
+    if module avail "$1" 2>&1 | grep -q "$1"; then
+        module load "$1"
+    fi
+}
+
+module load StdEnv/2020
+load_module gcc/13.3
+load_module apptainer
+load_module cd-hit/4.8.1
+load_module python/3.11
+load_module R/4.3.1
+load_module emboss/6.6.0
+load_module hmmer
+
+if command -v python3 &> /dev/null; then
+    python3 -m pip install --upgrade pip
+    python3 -m pip install pandas biopython numpy scikit-learn joblib imbalanced-learn matplotlib seaborn
+fi
+
+if command -v R &> /dev/null; then
+    Rscript -e "install.packages(c('stringr','dplyr','knitr','openxlsx','ftrCOOL'), repos='https://cloud.r-project.org')"
+fi
 
 # PFAM
 # Create main directory
