@@ -38,7 +38,6 @@ cd TE-Atlas
 ### 2. Run the Setup Script
 Execute the setup script to download required databases and container files:
 ```bash
-chmod +x setup.sh
 ./setup.sh
 ```
 This ensures all required resources are configured before running the pipeline.
