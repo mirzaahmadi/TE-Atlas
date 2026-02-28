@@ -23,7 +23,7 @@ load_module hmmer
 
 if command -v python3 &> /dev/null; then
     python3 -m pip install --upgrade pip
-    python3 -m pip install pandas biopython numpy matplotlib seaborn joblib "scikit-learn==1.3.0" "imbalanced-learn==0.13.0"
+    python3 -m pip install pandas biopython "numpy==1.25.2" matplotlib seaborn joblib "scikit-learn==1.3.2" "imbalanced-learn==0.11.0"
 fi
 
 if command -v R &> /dev/null; then
@@ -57,7 +57,7 @@ cd ..
 
 # Training Dataset and Sif Files from Zenodo
 # Download TRAINING DATASET
-wget https://zenodo.org/records/18777048/files/training_dataset.CSV?download=1
+wget -O training_dataset.CSV https://zenodo.org/records/18777048/files/training_dataset.CSV?download=1
 
 # Download TE Sif Files
 mkdir -p TE_pipeline_sif_files
@@ -65,10 +65,3 @@ wget -O TE_pipeline_sif_files/annosine_v2.sif https://zenodo.org/records/1877714
 wget -O TE_pipeline_sif_files/earlgrey_v5.1.sif https://zenodo.org/records/18777146/files/earlgrey_v5.1.sif?download=1
 wget -O TE_pipeline_sif_files/heliano.sif https://zenodo.org/records/18777146/files/heliano.sif?download=1
 wget -O TE_pipeline_sif_files/HiTE_V3.3.3.sif https://zenodo.org/records/18777146/files/HiTE_V3.3.3.sif?download=1
-
-
-
-
-
-
-
