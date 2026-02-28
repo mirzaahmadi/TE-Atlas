@@ -1,8 +1,0 @@
-so this is just to highlight concerns that I need to take into account when I am going to docker this shit
-
-1. The user will be able to clone my github repository (firgure out if this is the best motive, just because some environments on compute canada don't have internet). YES I CAN DO THIS
-2. There will be a script that they can run to clone all the pfam databases and get everything in the right space. YES I CAN DO THIS 
-3. They can change the time limit and memory and all that within my scripts, i will give them instructions for how to do that. THIS WILL BE LISTED IN SET UP INSTRUCTIONS
-4. All of the above will be listed in the setup instructions on the github.
-
-NOTE: In my setup script, under python and R installations, I can just do an if command and install all the libraries needed, easy
