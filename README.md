@@ -16,14 +16,14 @@ A full walkthrough of TE Atlas is available <a href="https://youtu.be/iEsX8fwtbN
 
 
 # Setup
-## 1️. Clone the Repository
+### 1️. Clone the Repository
 Run the following in a supported HPC cluster environment:
 ```bash
 git clone https://github.com/mirzaahmadi/TE-Atlas.git
 cd TE-Atlas
 ```
 
-## 2. Run the Setup Script
+### 2. Run the Setup Script
 Execute the setup script to download required databases and container files:
 ```bash
 ./setup.sh
