@@ -1,38 +1,73 @@
-TE Atlas
-TE Atlas is a transposable element detetion pipeline which leverages five leading and pre-established TE tools combined with AI classification to comprehensivly detect the TEs within any input genome. 
-This tool is split into three parts - 1. The TE detection portion only using the classic TE detection tools, 2. then one that allows you to train an AI model, 3. and a last one that allows you to actually use that model to help classify unkonwns from step 1. Full process is shown below. The general framework is illustrated below:
+# TE Atlas
+**TE Atlas** is an integrated transposable element (TE) detection and classification pipeline that leverages five established TE annotation tools combined with supervised machine learning to comprehensively detect and characterize TEs within any input genome.
 
+The pipeline consists of three modular components:
+1. **Multi-tool TE detection** using established annotation tools  
+2. **Supervised machine learning model training**  
+3. **AI-based classification** of remaining unknown sequences  
+
+The overall workflow is illustrated below:
 ![Pipeline Overview](Examples/Pipeline_Overview.png)
 
-## Video demo link for how it works
-https://youtu.be/iEsX8fwtbNY 
-
-## Set up 
-1. Git clone this repository (make this git clone thing proper I want it as markdown) in a HPC cluster environment
-2. Then run the .setup/ file which sets up all databases and container files ensuring that you have everything you need to begin.
+## Video Demonstration
+A full walkthrough of TE Atlas is available here: https://youtu.be/iEsX8fwtbNY
 
 
-# Prerequisites 
-- StdEnv/2020
-- gcc/13.3
-- Apptainer
-- cd-hit/4.8.1
-- python/3.11
-- R/4.3.1
-- emboss 6.6.0
-- hmmer
+# Setup
+## 1️. Clone the Repository
+Run the following in a supported HPC cluster environment:
+```bash
+git clone https://github.com/mirzaahmadi/TE-Atlas.git
+cd TE-Atlas
+```
 
+## 2. Run the Setup Script
+Execute the setup script to download required databases and container files:
+```bash
+./setup.sh
+```
+This ensures all required resources are configured before running the pipeline.
+
+
+# Prerequisites
+TE Atlas is currently configured for the **Digital Research Alliance of Canada (Compute Canada)** HPC environment. The following modules must be available:
+- StdEnv/2020  
+- gcc/13.3  
+- Apptainer  
+- cd-hit/4.8.1  
+- python/3.11  
+- R/4.3.1  
+- emboss/6.6.0  
+- hmmer  
+
+> ⚠️ **Platform Notice**  
+> The pipeline relies on `module load` commands specific to Compute Canada systems.  
+> At present, only Alliance/Compute Canada HPC systems are officially supported.
+
+---
 
 # Important Considerations
-- Note that the way the scripts are written and shit, this will only work in the way that I set it up if you are on a compute canada. it used like module load ... and stuff which is ocmpute canada sepcific, so for now, only HPC systems on Compute Canada are supported
-- For step 2 and 3, This is an experiemental phase using AI classification approaches. the training database that allows you to train a model has been curated from several gold-standard TE databases online. Please take into account that when trained on this dataset, the supervised machine learning Random Forest model is imabalanced. We recommend that if you train the model using our dataset, you take into account the accuracy and how it performs at reliable TE classification for differnet TE classes. We do not say this dataset is good enough, this is mainly an epxloraty aproahc - we recommend that you swap out or enhance this dataset of gold standard TEs with your own database in the same format, and then continue training.
-- Please ensure that the gneome headers you put in are of standard genome conventional formats conventional with GenBank and NCBI: like this strcuture Structure: Accession ID, organism name, chromosome scaffold info, and then assembly info, otherwise some tools may not accept certain formats, so just reworrk your genome headers if need be to fit this requirement. eg. of a good one is this: KZ451882.1 Felis catus isolate Cinnamon breed Abyssinian unplaced genomic scaffold chrUn_Scaffold_147, whole genome shotgun sequence.
+
+### Platform Compatibility
+The current implementation of TE Atlas is configured specifically for the Digital Research Alliance of Canada (Compute Canada) HPC environment. The scripts rely on `module load` commands and other environment-specific configurations that are particular to Alliance systems. As a result, the pipeline will only function as intended on Compute Canada HPC clusters. Portability to other HPC systems or local environments is not currently supported.
+
+### Machine Learning Component and Training Dataset
+Steps 2 and 3 introduce an experimental supervised machine learning component for TE classification. The provided training dataset was curated from multiple gold-standard TE databases; however, it is class-imbalanced, and model performance may vary across TE orders. Users should carefully evaluate classification accuracy and per-class performance when training on the default dataset. This dataset is intended as an exploratory starting point rather than a definitive solution. For optimal results, users are strongly encouraged to replace or augment the provided dataset with their own curated TE database in the same format before retraining the model.
+
+### Genome FASTA Header Requirements
+Input genome FASTA headers must follow conventional GenBank/NCBI-style formatting, including an accession ID, organism name, chromosome or scaffold identifier, and assembly information. Certain annotation tools may fail if non-standard header formats are used. Users should ensure that genome headers are properly formatted prior to running the pipeline.
+
+Example of an appropriate header format: 
+```bash
+>KZ451882.1 Felis catus isolate Cinnamon breed Abyssinian unplaced genomic scaffold chrUn_Scaffold_147, whole genome shotgun sequence
+```
+Improper header formatting may cause certain tools to fail. Adjust headers as needed before running the pipeline.
 
 
 # Usage
 
-## Step 1
-Given an input genome, the first step of this pipeline will run it through numerous tools to detect and classify TEs.
+## Step 1 — Multi-tool annotation
+Given an input genome, this step runs multiple integrated tools to detect and classify TEs.
 
 ```bash
 # Run with minimum command options
@@ -53,7 +88,7 @@ sbatch main.sh -- -g [genome.fna/fasta]
 --plant == Indicates genome is a plant (HiTE specific)
 ```
 
-Directories created by this step:
+### Output Directory Structure
 
 ```text
 <genome_name>_outputs/
@@ -85,7 +120,10 @@ Directories created by this step:
         └── Representative_Sequences_<genome_name>.FASTA
 ```
 
-### Example output table for Salmon Louse Genome - "COMPLETE_TE_RESULTS_<genome_name>.csv"
+### Example output
+
+<figure>
+  <figcaption><strong>COMPLETE_TE_RESULTS_&lt;genome_name&gt;.csv</strong></figcaption>
 
 | cluster   | length (nt) | Pipeline Used | Sequence Information | location | similarity (%) | Representative Sequence? | Pipeline_Count | Unknown_Status | family_count | Proteins |
 |------------|------------|--------------|----------------------|----------|----------------|--------------------------|----------------|----------------|--------------|----------|
@@ -96,19 +134,11 @@ Directories created by this step:
 | Cluster 8 | 5973 | EARLGREY | rnd-4_family-812#DNA/hAT-Tag1_(Recon_Family_Size_=38, Final_Multiple_Alignment_Size_=35) | * |  | YES | EARLGREY: 1 |  | DNA/hAT-Tag1: 1 |  |
 | Cluster 9 | 1110 | EARLGREY | rnd-4_family-205#LINE/L1_(Recon_Family_Size_=80, Final_Multiple_Alignment_Size_=67) | at 1:1110:4526:5634/+ | 87.99% | No |  |  |  |  |
 
+</figure>
 
-## Step 2
-The second step of this pipeline involves training a machine learning model off of a dataset of gold-standard TEs - this database can be substituted for yoru dataset if you have one.
 
-### Example of the training dataset that was used in my tests - any table that you put in place of this should have the same format and same column names
-
-| Sequence_ID | sequence_content | TE_Order |
-|-------------|-----------------|----------|
-| DF0000004 | CAGTCATGCGCCGCATAACGACGTTT... | TIR |
-| DF0000005 | TGATATGGTTTGGCTGTGTCCCCACC... | LTR |
-| DF0000006 | TCTATCTATATAAAATGCTTAGGTAT... | Helitron |
-| DF0000007 | GGCCGGGCGCGGTGGCTCACGCCTGT... | SINE |
-| DF0000008 | ATGGTAGATTTAAACCCAANCATATC... | Non-LTR/LINE |
+## Step 2 — Train the Machine Learning Model
+Train a Random Forest classifier using a labelled TE dataset.
 
 ```bash
 # Run with minimum command options
@@ -124,7 +154,17 @@ sbatch Train_Model.sh <dataset.csv>
 --n-estimators <int> == It sets how many decision trees are built during training.
 ```
 
-Directories created by this step:
+This dataset may be replaced with your own labelled TE database, provided it follows this same structure and column format to ensure compatability with the training workflow:
+
+| Sequence_ID | sequence_content | TE_Order |
+|-------------|-----------------|----------|
+| DF0000004 | CAGTCATGCGCCGCATAACGACGTTT... | TIR |
+| DF0000005 | TGATATGGTTTGGCTGTGTCCCCACC... | LTR |
+| DF0000006 | TCTATCTATATAAAATGCTTAGGTAT... | Helitron |
+| DF0000007 | GGCCGGGCGCGGTGGCTCACGCCTGT... | SINE |
+| DF0000008 | ATGGTAGATTTAAACCCAANCATATC... | Non-LTR/LINE |
+
+### Output Directory Structure
 
 ```text
 Training_outputs-<training_dataset_name>/
@@ -156,12 +196,21 @@ Training_outputs-<training_dataset_name>/
         │       └── TIR_Seq_Length_Boxplot.png
 ```
 
-### Example output - the EDA sequence length boxplot for one TE order and the per-class metrics from the training_dataset supervised machine learning model
-![Sequence_Length_Boxplot](Examples/Non-LTR_LINE_Seq_Length_Boxplot.png) 
-![Training_Metrics](Examples/per_class_metrics.png)
+Example outputs:
+<figure>
+  <img src="Examples/Non-LTR_LINE_Seq_Length_Boxplot.png" width="600">
+  <figcaption><em>Figure 1. Sequence length distribution for Non-LTR/LINE elements.</em></figcaption>
+</figure>
 
-## Step 3
-Use the trained machine learning model to classify any remaining unknown sequences 
+<figure>
+  <img src="Examples/per_class_metrics.png" width="600">
+  <figcaption><em>Figure 2. Per-class performance metrics from the trained model.</em></figcaption>
+</figure>
+
+
+## Step 3 — Classify Remaining Unknown Sequences
+
+Use the trained model to classify remaining unknown sequences from Step 1.
 
 ```bash
 # Run with minimum command options
@@ -181,8 +230,8 @@ sbatch classify.sh <complete_csv> <cdhit_output> <model_pkl> <scaler_pkl> <label
 --classifier-threshold <float> == Specifies AI model confidence threshold for TE classification – default value of 0.70 is used if not specified
 ```
 
-Directories created by this step:
 
+### Output Directory Structure
 ```text
 Classification_outputs/
     ├── [output_log].out
@@ -197,28 +246,35 @@ Classification_outputs/
             └── Final_inference_dataset.csv
 ```
 
-### Example output  - a classification summary of all the unkonwns that are now reclassified or whatever
-![Training_Metrics](Examples/classification_summary_threshold_0.70.png)
+Example output:
+<figure>
+  <img src="Examples/classification_summary_threshold_0.70.png" width="700">
+  <figcaption><em>Figure X. Classification summary showing reclassification of previously unknown sequences using the trained model (confidence threshold = 0.70).</em></figcaption>
+</figure>
 
 
-# References 
-Baril, T., Galbraith, J.G., and Hayward, A., Earl Grey: A Fully Automated User-Friendly Transposable Element Annotation and Analysis Pipeline, Molecular Biology and Evolution, Volume 41, Issue 4, April 2024, msae068 doi:10.1093/molbev/msae068
+# References
 
-Hu, K., Ni, P., Xu, M. et al. HiTE: a fast and accurate dynamic boundary adjustment approach for full-length transposable element detection and annotation. Nat Commun 15, 5573 (2024). https://doi.org/10.1038/s41467-024-49912-8
+Baril, T., Galbraith, J.G., & Hayward, A. (2024). Earl Grey: A fully automated user-friendly transposable element annotation and analysis pipeline. *Molecular Biology and Evolution*, 41(4), msae068. https://doi.org/10.1093/molbev/msae068
 
-Yang Li, Ning Jiang, Yanni Sun, AnnoSINE: a short interspersed nuclear elements annotation tool for plant genomes, Plant Physiology, Volume 188, Issue 2, February 2022, Pages 955–970, https://doi.org/10.1093/plphys/kiab524
+Hu, K., Ni, P., Xu, M., et al. (2024). HiTE: a fast and accurate dynamic boundary adjustment approach for full-length transposable element detection and annotation. *Nature Communications*, 15, 5573. https://doi.org/10.1038/s41467-024-49912-8
 
-Li Z , Gilbert C , Peng H , Pollet N. "Discovery of numerous novel Helitron-like elements in eukaryote genomes using HELIANO." Nucleic Acids Research, 2024. doi: doi.org/10.1093/nar/gkae679.
+Li, Y., Jiang, N., & Sun, Y. (2022). AnnoSINE: a short interspersed nuclear elements annotation tool for plant genomes. *Plant Physiology*, 188(2), 955–970. https://doi.org/10.1093/plphys/kiab524
 
-Li Z , Pollet N. "HELIANO: a Helitron-like element annotator." Zenodo (2024). doi: 10.5281/zenodo.10625239
+Li, Z., Gilbert, C., Peng, H., & Pollet, N. (2024). Discovery of numerous novel Helitron-like elements in eukaryote genomes using HELIANO. *Nucleic Acids Research*. https://doi.org/10.1093/nar/gkae679
 
-Hu J, Zheng Y, Shang X. MiteFinderII: a novel tool to identify miniature inverted-repeat transposable elements hidden in eukaryotic genomes. BMC medical genomics. 2018 Nov;11(5):51-9. https://doi.org/10.1186/s12920-018-0418-y
+Li, Z., & Pollet, N. (2024). HELIANO: a Helitron-like element annotator. Zenodo. https://doi.org/10.5281/zenodo.10625239
 
-Weizhong Li, Adam Godzik, Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide sequences, Bioinformatics, Volume 22, Issue 13, July 2006, Pages 1658–1659, https://doi.org/10.1093/bioinformatics/btl158
+Hu, J., Zheng, Y., & Shang, X. (2018). MiteFinderII: a novel tool to identify miniature inverted-repeat transposable elements hidden in eukaryotic genomes. *BMC Medical Genomics*, 11(S5), 51–59. https://doi.org/10.1186/s12920-018-0418-y
 
-Zielenkiewicz, P. (n.d.). pfam_scan (Version X.X) [Computer software]. GitHub. https://github.com/aziele/pfam_scan
+Li, W., & Godzik, A. (2006). Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide sequences. *Bioinformatics*, 22(13), 1658–1659. https://doi.org/10.1093/bioinformatics/btl158
+
+Zielenkiewicz, P. (n.d.). pfam_scan [Computer software]. GitHub. https://github.com/aziele/pfam_scan
+
 
 # Acknowledgements
 
-This work has been my masters thesis project in Bioinformatics and Artificial Intelligence at the university of Guelph. This work would not have been possible without the support and guidance of my master's thesis committee: Dr. T. Ryan Gregory, Dr. Stefan Kremer, Dr. Tyler Elliott and Dr. Brent Saylor.
+This work was developed as part of an MSc thesis in Bioinformatics and Artificial Intelligence at the University of Guelph.
 
+This project would not have been possible without the support and guidance of my thesis committee:  
+Dr. T. Ryan Gregory, Dr. Stefan Kremer, Dr. Tyler Elliott, and Dr. Brent Saylor.
