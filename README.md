@@ -204,12 +204,13 @@ Training_outputs-<training_dataset_name>/
 Example outputs:
 <figure>
   <img src="Examples/Non-LTR_LINE_Seq_Length_Boxplot.png" width="600">
-  <figcaption><em>Figure 1. Sequence length distribution for Non-LTR/LINE elements.</em></figcaption>
+  <figcaption><em>Sequence length distribution for Non-LTR/LINE elements.</em></figcaption>
 </figure>
+
 
 <figure>
   <img src="Examples/per_class_metrics.png" width="600">
-  <figcaption><em>Figure 2. Per-class performance metrics from the trained model.</em></figcaption>
+  <figcaption><em>Per-class performance metrics from the trained model.</em></figcaption>
 </figure>
 
 
@@ -254,7 +255,7 @@ Classification_outputs/
 Example output:
 <figure>
   <img src="Examples/classification_summary_threshold_0.70.png" width="700">
-  <figcaption><em>Figure X. Classification summary showing reclassification of previously unknown sequences using the trained model (confidence threshold = 0.70).</em></figcaption>
+  <figcaption><em>Classification summary showing reclassification of previously unknown sequences using the trained model (confidence threshold = 0.70).</em></figcaption>
 </figure>
 
 ---
