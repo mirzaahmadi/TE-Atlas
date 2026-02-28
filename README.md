@@ -55,10 +55,6 @@ TE Atlas is currently configured for the **Digital Research Alliance of Canada (
 - emboss/6.6.0  
 - hmmer  
 
-> ⚠️ **Platform Notice**  
-> The pipeline relies on `module load` commands specific to Compute Canada systems.  
-> At present, only Alliance/Compute Canada HPC systems are officially supported.
-
 ---
 
 # Important Considerations
