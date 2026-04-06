@@ -23,11 +23,16 @@ load_module hmmer
 
 if command -v python3 &> /dev/null; then
     python3 -m pip install --upgrade pip
-    python3 -m pip install pandas biopython "numpy==1.25.2" matplotlib seaborn joblib "scikit-learn==1.3.2" "imbalanced-learn==0.11.0"
+    python3 -m pip install "pandas==2.1.1" "biopython==1.86" "numpy==1.25.2" "matplotlib==3.7.2" "seaborn==0.13.2" "joblib==1.5.3" "scikit-learn==1.3.2" "imbalanced-learn==0.11.0"
 fi
 
 if command -v R &> /dev/null; then
-    Rscript -e "install.packages(c('stringr','dplyr','knitr','openxlsx','ftrCOOL'), repos='https://cloud.r-project.org')"
+    Rscript -e "install.packages('remotes', repos='https://cloud.r-project.org'); \
+    remotes::install_version('stringr', version='1.5.1', repos='https://cloud.r-project.org'); \
+    remotes::install_version('dplyr', version='1.1.4', repos='https://cloud.r-project.org'); \
+    remotes::install_version('knitr', version='1.48', repos='https://cloud.r-project.org'); \
+    remotes::install_version('openxlsx', version='4.2.6.1', repos='https://cloud.r-project.org'); \
+    remotes::install_version('ftrCOOL', version='2.0.0', repos='https://cloud.r-project.org')"
 fi
 
 # PFAM
