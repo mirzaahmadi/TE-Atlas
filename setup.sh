@@ -14,12 +14,12 @@ load_module() {
 
 module load StdEnv/2020
 load_module gcc/13.3
-load_module apptainer
+load_module apptainer/1.2.4
 load_module cd-hit/4.8.1
 load_module python/3.11
 load_module R/4.3.1
 load_module emboss/6.6.0
-load_module hmmer
+load_module hmmer/3.4
 
 if command -v python3 &> /dev/null; then
     python3 -m pip install --upgrade pip
